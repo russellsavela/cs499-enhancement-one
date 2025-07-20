@@ -2,6 +2,15 @@
 # Russ Savela, russell.savela@snhu.edu, 2025
 
 terraform {
+
+  cloud { 
+    
+    organization = "russell-savela-org" 
+
+    workspaces { 
+      name = "enhancement-one" 
+    } 
+  } 
   required_providers {
     aws = {
       source  = "hashicorp/aws"

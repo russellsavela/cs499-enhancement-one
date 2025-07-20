@@ -12,4 +12,5 @@ for the account being used.
 
 Any commit to the main branch will trigger a deployement.
 
-TODO: setup Terraform HCL state
+TODO: [X] setup Terraform HCL state
+      [ ] Complete CRUD layer chnages
