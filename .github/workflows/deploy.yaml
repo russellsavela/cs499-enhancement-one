@@ -40,7 +40,6 @@ jobs:
       - name: Initialise project and deploy terraform
         run: |
           cd terraform
-          terraform login
           terraform fmt
           terraform init
           xterraform apply -var='example_api_key=${{secrets.TERRAFORM_API_KEY}}' --auto-approve=true
