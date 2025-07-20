@@ -3,7 +3,7 @@
 # Configure instance with dependencies
 #
 
-sudo dnf install python3-pip git
+sudo dnf -y install python3-pip git
 
 pip3 install dash_leaflet dash pandas matplotlib boto3
 
