@@ -1,6 +1,11 @@
 # Russ Savela, russell.savela@snhu.edu, 2025
 
 
+resource "aws_iam_instance_profile" "dynamodb_access" {
+  name = "dynamodb-instance-profile"
+  role = aws_iam_role.snhu_dynamo
+}
+
 resource "aws_instance" "enhancement-one" {
 
 
@@ -10,6 +15,7 @@ resource "aws_instance" "enhancement-one" {
   monitoring             = true
   vpc_security_group_ids = var.aws_sgs
   subnet_id              = var.aws_subnet
+  iam_instance_profile   = aws_iam_instance_profile.dynamodb_access
 
   user_data              = file("./user-data/config-deps.sh")
 
