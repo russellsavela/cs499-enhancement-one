@@ -9,13 +9,13 @@ variable "aws_region" {
 
 variable "aws_subnet" {
     type = string
-    default = ""
+    default = "subnet-639b7c49"
     description = "AWS Subnet"
 }
 
 variable "aws_sgs" {
     type = list
-    default = [""]
+    default = ["sg-0f56567e2d18c7f69"]
     description = "AWS Security Groups"
 }
 
