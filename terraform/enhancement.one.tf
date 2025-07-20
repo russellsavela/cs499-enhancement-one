@@ -22,7 +22,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "enhancement_one_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
-  role = aws_iam_role.nhu_dynamodb
+  role = aws_iam_role.snhu_dynamodb
 
 }
 
