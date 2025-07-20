@@ -1,9 +1,28 @@
 # Russ Savela, russell.savela@snhu.edu, 2025
 
 
+resource "aws_iam_role" "snhu_dynamodb" {
+  name = "enhancement_one_role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_instance_profile" "dynamodb_access" {
   name = "dynamodb-instance-profile"
-  role = aws_iam_role.snhu_dynamo
+  role = aws_iam_role.snhu_dynamodb
 }
 
 resource "aws_instance" "enhancement-one" {
