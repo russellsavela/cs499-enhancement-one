@@ -41,7 +41,7 @@ resource "aws_instance" "enhancement-one" {
   monitoring             = true
   vpc_security_group_ids = var.aws_sgs
   subnet_id              = var.aws_subnet
-  iam_instance_profile   = aws_iam_instance_profile.dynamodb_access
+  iam_instance_profile   = aws_iam_instance_profile.dynamodb_access.name
 
   user_data              = file("./user-data/config-deps.sh")
 
