@@ -1,0 +1,38 @@
+name: Enhancement One Deployment - Russ Savela
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["terraform/**"]
+
+  pull_request:
+    branches: [main]
+    paths: ["terraform/**"]
+
+jobs:
+
+  deploy:
+    name: Terraform Deploy
+    needs: plan
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20.x
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws-region: us-east-1
+      - name: Initialise project and deploy terraform
+        run: |
+          cd terraform
+          terraform fmt
+          terraform init
+          #terraform apply -var='example_api_key=${{secrets.EXAMPLE_API_KEY}}' --auto-approve=true
+          terraform apply --auto-approve=true
