@@ -28,10 +28,14 @@ from AnimalShelter import AnimalShelter
 ###########################
 # Data Manipulation / Model
 ###########################
-# FIX ME update with your username and password and CRUD Python module name
+# 
+#  Authentication to DynamodDB is now via IAM
+#
+#   These are ignored, to be removed in Enhancement three
+#
+username = ""
+password = ""
 
-username = "aacuser"
-password = "aacuser"
 
 # Connect to database via CRUD Module
 db = AnimalShelter(username, password)

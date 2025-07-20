@@ -29,16 +29,16 @@ class AnimalShelter(object):
         #
         # Connection Variables
         #
-        USER = 'aacuser'
-        PASS = 'aacuser'
-        HOST = 'nv-desktop-services.apporto.com'
-        PORT = 30243
-        DB = 'AAC'
-        COL = 'animals'
+        #USER = 'aacuser'
+        #PASS = 'aacuser'
+        #HOST = 'nv-desktop-services.apporto.com'
+        #PORT = 30243
+        #DB = 'AAC'
+        #COL = 'animals'
 
         # override username / password
-        USER = username
-        PASS = password
+        #USER = username
+        #PASS = password
 
         #
         # Initialize Connection
