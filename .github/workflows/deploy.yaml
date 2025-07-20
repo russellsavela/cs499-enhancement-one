@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: hashicorp/setup-terraform@v3
         with:
-          cli_config_credentials_token: ${{ secrets.TERRAFORM_API_TOKEN }}
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_API_KEY }}
       - uses: actions/checkout@v4
       - name: Use Node.js 20.x
         uses: actions/setup-node@v1
