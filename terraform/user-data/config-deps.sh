@@ -1,7 +1,9 @@
+#!/bin/bash
 # Russ Savela, russell.savela@snhu.edu, 2025
 # 
 # Configure instance with dependencies
 #
+
 
 sudo dnf -y install python3-pip git
 
