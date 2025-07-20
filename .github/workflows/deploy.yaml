@@ -13,7 +13,7 @@ on:
 
 env:
   TF_CLOUD_ORGANIZATION: "russell-savela-org"
-  TF_API_TOKEN: "${{ secrets.TERRAFORM_API_TOKEN }}"
+  TF_API_TOKEN: "${{ secrets.TERRAFORM_API_KEY }}"
   TF_WORKSPACE: "enhancement-one"
   CONFIG_DIRECTORY: "./"
 
