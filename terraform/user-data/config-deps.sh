@@ -12,11 +12,13 @@ pip3 install dash_leaflet dash pandas matplotlib boto3 bson
 
 # git clone the code we are going to run
 #  -it is public, so no keys needed
+#
+#  This runs as the ec2-user, so it isn't root.
 
-git clone https://github.com/russellsavela/cs499-enhancement-one.git
+su -c "cd; git clone https://github.com/russellsavela/cs499-enhancement-one.git" ec2-user
  
  
 # Run the app
 #
 
-python3 cs499-enhancement-one/enhancement.one.py
+su -c "cd; python3 cs499-enhancement-one/enhancement.one.py" ec2-user
