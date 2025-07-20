@@ -11,3 +11,5 @@ and AWS_SECRET_ACCESS_KEY have been set and have appropriate permissions
 for the account being used.
 
 Any commit to the main branch will trigger a deployement.
+
+TODO: setup Terraform HCL state
