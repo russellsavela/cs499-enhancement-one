@@ -25,3 +25,9 @@ variable "aws_keyname" {
     default = "snhu"
     description = "AWS Key Name"
 }
+
+variable "aws_ami" {
+    type = string
+    default = "ami-0cd4eb0ae8debf650"
+    description = "AWS AMI"
+}
