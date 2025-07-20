@@ -1,0 +1,18 @@
+
+# Russ Savela, russell.savela@snhu.edu, 2025
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.67"
+    }
+  }
+
+  required_version = ">= 1.2.0"
+}
+
+provider "aws" {
+  region  = var.aws_region
+}
+
