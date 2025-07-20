@@ -1,6 +1,17 @@
 # Russ Savela, russell.savela@snhu.edu, 2025
 
 
+terraform { 
+  cloud { 
+    
+    organization = "russell-savela-org" 
+
+    workspaces { 
+      name = "enhancement-one" 
+    } 
+  } 
+}
+
 resource "aws_iam_role" "snhu_dynamodb" {
   name = "enhancement_one_role"
 
