@@ -7,7 +7,7 @@
 
 sudo dnf -y install python3-pip git
 
-pip3 install dash_leaflet dash pandas matplotlib boto3
+pip3 install dash_leaflet dash pandas matplotlib boto3 bson
 
 
 # git clone the code we are going to run
