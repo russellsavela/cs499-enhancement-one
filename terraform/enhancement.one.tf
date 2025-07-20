@@ -29,7 +29,7 @@ resource "aws_iam_role_policy_attachment" "enhancement_one_attachment" {
 
 resource "aws_iam_instance_profile" "dynamodb_access" {
   name = "dynamodb-instance-profile"
-  role = aws_iam_role.snhu_dynamodb
+  role = aws_iam_role.snhu_dynamodb.name
 }
 
 resource "aws_instance" "enhancement-one" {
