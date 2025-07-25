@@ -222,32 +222,16 @@ def update_dashboard(filter_type):
     #Intact Female 26 weeks to 156  weeks
   
     elif filter_type == "WATER":
-                               
-        df = pd.DataFrame.from_records(db.read({
-            '$or': [
-                {"breed": {'$regex': re.compile(".*labrador.*mix.*", re.IGNORECASE) }},
-                {"breed": {'$regex': re.compile(".*chesapeake.*", re.IGNORECASE) }},
-                {"breed": {'$regex': re.compile(".*newfoundland.*", re.IGNORECASE) }},
-            ],
-            "age_upon_outcome_in_weeks": {"$gte":26.0, "$lte":156.0},
-            "sex_upon_outcome": "Intact Female",} ))
-    
+
+       df = pd.DataFrame.from_records(db.read({ }))
+
     #German Shepherd, Alaskan Malamute, Old English Sheepdog, Siberian Husky,
     # Rottweiler
     #Intact Male 26 weeks to 156  weeks 
     elif filter_type == "MOUNTAIN":
                
                                        
-        df = pd.DataFrame.from_records(db.read({
-            '$or': [
-                {"breed": {'$regex': re.compile(".*german.*", re.IGNORECASE) }},
-                {"breed": {'$regex': re.compile(".*rott.*", re.IGNORECASE) }},
-                {"breed": {'$regex': re.compile(".*malamute.*", re.IGNORECASE) }},
-                {"breed": {'$regex': re.compile(".*sheepdog.*", re.IGNORECASE) }},
-                {"breed": {'$regex': re.compile(".*husky.*", re.IGNORECASE) }}
-            ],
-            "age_upon_outcome_in_weeks": {"$gte":26.0, "$lte":156.0},
-            "sex_upon_outcome": "Intact Male",} ))
+        df = pd.DataFrame.from_records(db.read({} ))
     
         
                                        
