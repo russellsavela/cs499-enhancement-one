@@ -96,6 +96,8 @@ app.layout = html.Div([
         ],
         value='ALL'
     ),
+
+
         
     html.Hr(),
       #Set up the features for  interactive data table to make it user-friendly for your client
@@ -160,6 +162,10 @@ def update_dashboard(filter_type):
     # rescue dogs, so we aren't expecting dogs with papers,
     # there are a lot of mixes...
 
+    #
+    # Enhancement Two - DynamoDB does not support regular expressions,
+    #                    so these need to change to simple matches.
+
     if filter_type == "ALL":
         
         df = pd.DataFrame.from_records(db.read({}))
@@ -170,22 +176,48 @@ def update_dashboard(filter_type):
     # Intact Male 20 weeks to 300 weeks
                                        
     elif filter_type == "DISASTER":
-        # Use regular expressions to match
-                                                                      
-        df = pd.DataFrame.from_records(db.read({
-            '$or': [
-                {"breed": {'$regex': re.compile(".*doberman.*", re.IGNORECASE) }},
-                {"breed": {'$regex': re.compile(".*rott.*", re.IGNORECASE) }},
-                {"breed": {'$regex': re.compile(".*bloodh.*", re.IGNORECASE) }},
-                {"breed": {'$regex': re.compile(".*golden.*", re.IGNORECASE) }},
-                {"breed": {'$regex': re.compile(".*german.*", re.IGNORECASE) }}
-            ],
-            "age_upon_outcome_in_weeks": {"$gte":20.0, "$lte":300.0},
-            "sex_upon_outcome": "Intact Male",
-            
-        } ))
+
+
+        # we can do the basic table scan
+        response = pd.DataFrame.from_records(db.read({ } ))
       
-    
+        # and then do the filtering in Python.  This is not efficient, but
+        #  it is what is supported by DynamoDB.
+        items = response['Items']
+
+        # Handle pagination if necessary
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+            items.extend(response['Items'])
+
+
+        breed_patterns = [
+            re.compile("doberman", re.IGNORECASE),
+            re.compile("rott", re.IGNORECASE),
+            re.compile("bloodh", re.IGNORECASE),
+            re.compile("golden", re.IGNORECASE),
+            re.compile("german", re.IGNORECASE)
+        ]
+
+        #Python filter
+        def is_match(item):
+            breed = item.get('breed', '')
+            age = float(item.get('age_upon_outcome_in_weeks', 0))
+            sex = item.get('sex_upon_outcome', '')
+
+            breed_match = any(pattern.search(breed) for pattern in breed_patterns)
+            age_match = 20.0 <= age <= 300.0
+            sex_match = sex == 'Intact Male'
+
+            return breed_match and age_match and sex_match
+
+        # Filter items in Python
+        filtered_items = [item for item in items if is_match(item)]
+
+        # Step 5: Convert to DataFrame
+        df = pd.DataFrame.from_records(filtered_items)
+
+
     #Labrador Retriever Mix, Chesapeake Bay Retriever,Newfoundland
     #Intact Female 26 weeks to 156  weeks
   
