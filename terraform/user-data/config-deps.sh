@@ -22,15 +22,15 @@ su -c "cd; git clone https://github.com/russellsavela/cs499-enhancement-one.git"
  
 cat << EOF > /etc/systemd/system/cs499-enhancement-one.service
 [Unit]
-Description=Your Server Process
+Description=CS 499 - Enhancement Two Service
 After=network.target
 
 [Service]
-ExecStart=/cs499-enhancement-one/enhancement.one.py
+ExecStart=/usr/bin/python3 /cs499-enhancement-one/enhancement.one.py
 
 Restart=always
 User=ec2-user
-WorkingDirectory=/home/ec2-user/cs499-enhancement-one
+WorkingDirectory=/cs499-enhancement-one
 
 [Install]
 WantedBy=multi-user.target
@@ -39,7 +39,6 @@ EOF
 # Run the app
 #
 
+systemctl daemon-reload
 systemctl enable cs499-enhancement-one.service
 systemctl start cs499-enhancement-one.service
-
-#su -c "cd; python3 cs499-enhancement-one/enhancement.one.py" ec2-user
