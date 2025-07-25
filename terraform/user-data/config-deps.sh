@@ -13,7 +13,7 @@ pip3 install dash_leaflet dash pandas matplotlib boto3 bson
 # git clone the code we are going to run
 #  -it is public, so no keys needed
 #
-#  This runs as the ec2-user, so it isn't root.
+#  This runs as the ec2-user, so it isn't root.  Still seems to set file permissions as root though
 
 su -c "cd; git clone https://github.com/russellsavela/cs499-enhancement-one.git" ec2-user
 
