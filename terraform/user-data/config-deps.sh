@@ -15,7 +15,7 @@ pip3 install dash_leaflet dash pandas matplotlib boto3 bson
 #
 #  This runs as the ec2-user, so it isn't root.  Still seems to set file permissions as root though
 
-su -c "cd; git clone https://github.com/russellsavela/cs499-enhancement-one.git" ec2-user
+su -c "cd; git clone -b main https://github.com/russellsavela/cs499-enhancement-one.git" ec2-user
 
 # Create a systemd service to run the app
 #
