@@ -37,7 +37,7 @@ WantedBy=multi-user.target
 EOF
 
 # Run the app
-#
+#    better to do this as a system service, that will restart on failures
 
 systemctl daemon-reload
 systemctl enable cs499-enhancement-one.service
