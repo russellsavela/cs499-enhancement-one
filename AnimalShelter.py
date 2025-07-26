@@ -84,7 +84,7 @@ class AnimalShelter(object):
                 # No filter – scan everything (be careful with large tables!)
                 response = self.database.scan()
 
-            return response.get('Items', [])
+            return response['Items']
 
         except Exception as e:
             raise Exception("Error reading from database: ", e)
