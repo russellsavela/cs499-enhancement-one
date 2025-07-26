@@ -4,7 +4,8 @@
 # Configure instance with dependencies
 #
 
-
+#  git is needed to clone repo from github
+#
 sudo dnf -y install python3-pip git
 
 pip3 install dash_leaflet dash pandas matplotlib boto3 bson
