@@ -1,5 +1,6 @@
 # Russ Savela, russell.savela@snhu.edu, 2025
-
+#
+#  Enhancement two - will change filename to reflect
 
 resource "aws_iam_role" "snhu_dynamodb" {
   name = "enhancement_one_role"
