@@ -69,7 +69,7 @@ df = pd.DataFrame.from_records(db.read({}))
 app = Dash(__name__)
 
 #Add in Grazioso Salvare’s logo
-image_filename = './enhancement.one.png' # replace with your own image
+image_filename = './enhancement.two.png' # replace with your own image
 encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 
 #P lace the HTML image tag in the line below into the app.layout code according to your design
