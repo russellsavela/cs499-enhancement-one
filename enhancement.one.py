@@ -1,9 +1,13 @@
 
 # Configure the necessary Python module imports for dashboard components
+
+import scipy.stats as st
+
 import dash_leaflet as dl
 from dash import dcc
 from dash import html
 import plotly.express as px
+import plotly.graph_objs as go
 from dash import Dash
 from dash import dash_table
 from dash.dependencies import Input, Output, State
@@ -117,6 +121,16 @@ app.layout = html.Div([
                         ),
     html.Br(),
     html.Hr(),
+
+    # add the stats pages 
+
+        html.Div(className='row',
+                 style={'display': 'flex'},
+                    children= [
+                        
+                       dcc.Graph(id='stats-id'),
+                        html.Div( id='summary-id', className='col s14 m6')
+                        ]),
 #This sets up the dashboard so that your chart and your geolocation chart are side-by-side
     html.Div(className='row',
          style={'display' : 'flex'},
@@ -137,13 +151,14 @@ app.layout = html.Div([
                 ),           
             html.Div(
                 id='graph-id',
-                className='col s12 m6',
+                className='col s12 m6'
             ),
             html.Div(
                 id='map-id',
-                className='col s12 m6',
-            )
+                className='col s14 m6',
+            ),
         ])
+
 ])
 
 #############################################
@@ -263,6 +278,51 @@ def update_graphs(viewData, chart_dropdown):
                             
         )    
     ]
+
+#  Calculate stats
+#
+@app.callback(
+            Output('stats-id', "figure"),
+            Output('summary-id', "children"),
+            [Input('datatable-id', "derived_virtual_data")])
+def update_graphs(viewData):
+
+    if( viewData == None):
+        return()
+
+    df = pd.DataFrame.from_dict(viewData)
+
+
+    # Cast columns to numbers
+    df['age_upon_outcome_in_weeks'] = pd.to_numeric(df['age_upon_outcome_in_weeks'], errors='coerce')
+    df['location_lat'] = pd.to_numeric(df['location_lat'], errors='coerce')
+    df['location_long'] = pd.to_numeric(df['location_long'], errors='coerce')
+    df['rec_num'] = pd.to_numeric(df['rec_num'], errors='coerce')
+
+    slope, intercept, r_value, p_value, std_err = st.linregress(df['location_lat'], df['age_upon_outcome_in_weeks'])
+    regression = slope * df['location_lat'] + intercept
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=df['location_lat'], y=df['age_upon_outcome_in_weeks'], mode='markers', name='Data'))
+    fig.add_trace(go.Scatter(x=df['location_lat'], y=regression, mode='lines', name='Regression Line'))
+
+    nobs, minmax, mean, variance, skewness, kurtosis  = st.describe(df['age_upon_outcome_in_weeks'].dropna())
+
+    summary = (
+            f" *** Descriptive Statistics *** \n"
+            f"Observations   {nobs:.0f} \n"
+            f"Mean:   {mean:.4f}  \n"
+            f"Variance:  {variance:.4f} \n"
+            f"Skewness:   {skewness:.4f} \n"
+            f"Kurtosis:   {kurtosis:.4f} \n"
+            f"\n *** Linear Regression *** \n"
+            f"Slope:   {slope:.4f} \n"
+            f"Intercept:   {intercept:.4f} \n"
+            f"P value:   {p_value:.4e} \n"
+            f"Standard Error: {std_err:.4f}"
+    )
+
+    return fig, dcc.Markdown(summary)
     
 #This callback will highlight a cell on the data table when the user selects it
 @app.callback(
@@ -305,7 +365,10 @@ def update_map(viewData, index):
         row = 0
     else: 
         row = index[0]
-        
+    
+    # positions have changed because of database change
+    #  lat/lng now 10,0
+    # 
     # Austin TX is at [30.75,-97.48]
     return [
         dl.Map(style={'width': '1000px', 'height': '500px'}, center=[30.75,-97.48], zoom=10, children=[
@@ -314,7 +377,7 @@ def update_map(viewData, index):
             # Column 13 and 14 define the grid-coordinates for the map
             # Column 4 defines the breed for the animal
             # Column 9 defines the name of the animal
-            dl.Marker(position=[dff.iloc[row,13],dff.iloc[row,14]], children=[
+            dl.Marker(position=[dff.iloc[row,10],dff.iloc[row,0]], children=[
                 dl.Tooltip(dff.iloc[row,4]),
                 dl.Popup([
                     html.H1("Animal Name"),
@@ -325,9 +388,9 @@ def update_map(viewData, index):
     ]
 
 
-
 #app.run_server(debug=True)
 # changed to app.run
 #  listen for all IPs on port 8050
 app.run(debug=True, host='0.0.0.0', port=8050)
+
 
